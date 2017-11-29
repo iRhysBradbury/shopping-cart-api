@@ -1,6 +1,10 @@
 package com.company.api.shopping.model
 
+trait Priced {
+  def price: BigDecimal
+}
+
 trait Basket {
-  def products: Seq[Product]
-  def totalAmount: BigDecimal = products.reduce(_.price + _.price)
+  def priced: Seq[Priced]
+  def totalAmount: BigDecimal = priced.map(_.price).sum
 }
