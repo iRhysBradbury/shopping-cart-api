@@ -1,7 +1,5 @@
 package com.company.api.shopping.model
 
-trait Identifier
-
 trait Priced {
   def price: BigDecimal
   def offer: Option[Offer] = None
