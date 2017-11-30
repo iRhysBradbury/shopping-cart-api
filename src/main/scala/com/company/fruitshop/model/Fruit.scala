@@ -1,10 +1,10 @@
 package com.company.fruitshop.model
 
-import com.company.api.shopping.model.{Offer, Priced}
+import com.company.api.shopping.model.{Offer => Discount, Priced}
 
 class Fruit(
   val price: BigDecimal,
-  override val offer: Option[Offer] = None
+  override val offer: Option[Discount] = None
 ) extends Priced
 
 case object Apple extends Fruit(
