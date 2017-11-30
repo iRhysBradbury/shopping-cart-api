@@ -1,10 +1,10 @@
 package com.company.api.shopping.model
 
-import org.scalatest.{FlatSpec, Matchers}
+import org.scalatest.{Assertion, FlatSpec, Matchers}
 
 class BasketTest extends FlatSpec with Matchers {
 
-  case class MyBasket(priced: Seq[Priced]) extends Basket
+  case class MyBasket(priced: Seq[MyProduct]) extends Basket
   class MyProduct(
     val price: BigDecimal,
     override val offer: Option[Offer] = None
@@ -23,75 +23,47 @@ class BasketTest extends FlatSpec with Matchers {
     val priceMultiplier = 1
   }
 
+  def basketTest(totalAmountExpected: BigDecimal)(products: MyProduct*): Assertion = {
+    MyBasket(products).totalAmount shouldBe totalAmountExpected
+  }
+
   it should "calculate the total amount" in {
-    val actual = MyBasket(
-      priced = Seq(
-        Something,
-        SomethingElse,
-        AnotherThing
-      )
-    ).totalAmount
-
-    val expected: BigDecimal = 6
-
-    actual shouldBe expected
+    basketTest(totalAmountExpected = 6)(
+      Something,
+      SomethingElse,
+      AnotherThing
+    )
   }
 
   it should "calculate the total amount, inclusive of offers, bound 1" in {
-    val actual = MyBasket(
-      priced = Seq(
-        Something,
-        SomethingElse,
-        AnotherThing,
-        DiscountedThing,
-        DiscountedThing
-      )
-    ).totalAmount
-
-    val expected: BigDecimal = 9
-
-    actual shouldBe expected
+    basketTest(totalAmountExpected = 9)(
+      Something,
+      SomethingElse,
+      AnotherThing,
+      DiscountedThing,
+      DiscountedThing
+    )
   }
 
   it should "calculate the total amount, inclusive of offers, bound 2" in {
-    val actual = MyBasket(
-      priced = Seq(
-        Something,
-        SomethingElse,
-        AnotherThing,
-        DiscountedThing,
-        DiscountedThing,
-        DiscountedThing
-      )
-    ).totalAmount
-
-    val expected: BigDecimal = 12
-
-    actual shouldBe expected
+    basketTest(totalAmountExpected = 12)(
+      Something,
+      SomethingElse,
+      AnotherThing,
+      DiscountedThing,
+      DiscountedThing,
+      DiscountedThing
+    )
   }
 
   it should "calculate the total amount, inclusive of offers, bound 3" in {
-    val actual = MyBasket(
-      priced = Seq(
-        DiscountedThing,
-        DiscountedThing
-      )
-    ).totalAmount
-
-    val expected: BigDecimal = 3
-
-    actual shouldBe expected
+    basketTest(totalAmountExpected = 3)(
+      DiscountedThing,
+      DiscountedThing
+    )
   }
 
   it should "calculate the total amount, inclusive of offers, bound 4" in {
-    val actual = MyBasket(
-      priced = Seq(
-        DiscountedThing
-      )
-    ).totalAmount
-
-    val expected: BigDecimal = 3
-
-    actual shouldBe expected
+    basketTest(totalAmountExpected = 3)(DiscountedThing)
   }
 }
