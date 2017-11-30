@@ -1,7 +1,22 @@
 package com.company.fruitshop.model
 
-import com.company.api.shopping.model.Priced
+import com.company.api.shopping.model.{Offer, Priced}
 
-class Fruit(val price: BigDecimal) extends Priced
-case object Apple extends Fruit(0.6)
-case object Orange extends Fruit(0.25)
+class Fruit(
+  val price: BigDecimal,
+  override val offer: Option[Offer] = None
+) extends Priced
+
+case object Apple extends Fruit(
+  price = 0.6,
+  offer = Some(
+    Offer.TwoForOne
+  )
+)
+case object Orange extends Fruit(
+  price = 0.25,
+  offer = Some(
+    Offer.ThreeForThePriceOfTwo
+  )
+)
+

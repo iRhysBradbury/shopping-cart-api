@@ -4,7 +4,7 @@ import org.scalatest.{FlatSpec, Matchers}
 
 class FruitBasketTest extends FlatSpec with Matchers {
 
-  it should "calculate the total amount" in {
+  it should "calculate the total amount, inclusive of offers of Fruit" in {
     val actual = FruitBasket(
       priced = Seq(
         Apple,
@@ -14,7 +14,7 @@ class FruitBasketTest extends FlatSpec with Matchers {
       )
     ).totalAmount
 
-    val expected: BigDecimal = 2.05
+    val expected: BigDecimal = 1.45
 
     actual shouldBe expected
   }
