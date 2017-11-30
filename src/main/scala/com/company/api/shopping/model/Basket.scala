@@ -12,7 +12,7 @@ trait Basket {
       val offer = items.flatMap(_.offer).headOption.getOrElse(Offer.Default)
       items.grouped(offer.amountInGroup).map { group =>
         if (group.size == offer.amountInGroup) {
-          offer.priceMultiplier * group.headOption.map(_.price).getOrElse(BigDecimal(1))
+          group.headOption.map(_.price * offer.priceMultiplier).getOrElse(BigDecimal(0))
         } else {
           group.map(_.price).sum
         }
