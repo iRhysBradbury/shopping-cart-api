@@ -11,9 +11,12 @@ class BasketTest extends FlatSpec with Matchers {
   ) extends Priced
 
   case object Something extends MyProduct(price = 1)
-  case object SomethingElse extends MyProduct(price =2)
-  case object AnotherThing extends MyProduct(price =3)
-  case object DiscountedThing extends MyProduct(price = 3, offer = Some(BuyOneGetOneFree))
+  case object SomethingElse extends MyProduct(price = 2)
+  case object AnotherThing extends MyProduct(price = 3)
+  case object DiscountedThing extends MyProduct(
+    price = 3,
+    offer = Some(BuyOneGetOneFree)
+  )
 
   case object BuyOneGetOneFree extends Offer {
     val amountInGroup = 2
