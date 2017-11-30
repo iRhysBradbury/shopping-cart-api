@@ -9,9 +9,9 @@ trait Basket {
   def priced: Seq[Priced]
   def totalAmount: BigDecimal = {
     priced.groupBy(_.getClass).flatMap { case (_, items) =>
-      val offer = items.flatMap(_.offer).headOption.getOrElse(Offer.Default)
-      items.grouped(offer.amountInGroup).map { group =>
-        if (group.size == offer.amountInGroup) {
+      val offer = items.flatMap(_.offer).headOption.getOrElse(Offer.NoEffect)
+      items.grouped(offer.groupSize).map { group =>
+        if (group.size == offer.groupSize) {
           group.headOption.map(_.price * offer.priceMultiplier).getOrElse(BigDecimal(0))
         } else {
           group.map(_.price).sum
@@ -22,13 +22,13 @@ trait Basket {
 }
 
 trait Offer {
-  def amountInGroup: Int
+  def groupSize: Int
   def priceMultiplier: Int
 }
 
 object Offer {
-  case object Default extends Offer {
-    val amountInGroup = 1
+  case object NoEffect extends Offer {
+    val groupSize = 1
     val priceMultiplier = 1
   }
 }

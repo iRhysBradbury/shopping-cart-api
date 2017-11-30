@@ -19,7 +19,7 @@ class BasketTest extends FlatSpec with Matchers {
   )
 
   case object BuyOneGetOneFree extends Offer {
-    val amountInGroup = 2
+    val groupSize = 2
     val priceMultiplier = 1
   }
 
