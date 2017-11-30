@@ -1,12 +1,26 @@
 package com.company.api.shopping.model
 
 trait Priced {
+  /**
+    * @return the price
+    */
   def price: BigDecimal
+
+  /**
+    * @return an Offer if there is one
+    */
   def offer: Option[Offer] = None
 }
 
 trait Basket {
+  /**
+    * @return the Priced items in this Basket
+    */
   def priced: Seq[Priced]
+
+  /**
+    * @return the total amount in the basket, taking into consideration any offers applicable
+    */
   def totalAmount: BigDecimal = {
     priced.groupBy(_.getClass).flatMap { case (_, items) =>
       val offer = items.flatMap(_.offer).headOption.getOrElse(Offer.NoEffect)
@@ -22,7 +36,14 @@ trait Basket {
 }
 
 trait Offer {
+  /**
+    * @return the size which the offer extends to, eg. 9 for the price of 4; 9 would be the groupSize
+    */
   def groupSize: Int
+
+  /**
+    * @return the amount we should multiply one to a price for the price of that group
+    */
   def priceMultiplier: Int
 }
 
